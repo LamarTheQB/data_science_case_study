@@ -2,7 +2,7 @@
 
 ## Collaborators:
 - Somil Varshney
-- Sahil Nilkanthace
+- Sahil Raju Nilkanthache
 - Rishi Modugu
 - Elena Rangelov
 
