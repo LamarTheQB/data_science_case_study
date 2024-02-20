@@ -1,2 +1,2 @@
-dataset/.gitattributes
-dataset/.ipynb_checkpoints
+/dataset/.gitattributes
+/dataset/.ipynb_checkpoints/
