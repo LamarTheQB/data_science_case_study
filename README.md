@@ -6,16 +6,16 @@ El
  - comment code
  - explain why regression
  - change to section heading
-Somil
+\nSomil
  - visualization
  - implement 2% analysis
-Rishi
+\nRishi
  - comment uncommented code *except analysis section
  - formatting on team agreement
  - make sure import block is at the top
  - change collaborators to authors
  - remove alas from conclusion
-sahil
+\nSahil
  - intro paragraph
  - switch dataset and reasons
  - cite sources for documentation and further reading
