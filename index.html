@@ -7516,7 +7516,35 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Heading-1">Heading 1<a class="anchor-link" href="#Heading-1">¶</a></h1>
+<h1 id="Machine-Learning-Based-Pricing-Model-for-Airbnbs-in-New-York">Machine Learning-Based Pricing Model for Airbnbs in New York<a class="anchor-link" href="#Machine-Learning-Based-Pricing-Model-for-Airbnbs-in-New-York">¶</a></h1><h2 id="Spring-2024-Data-Science-Project">Spring 2024 Data Science Project<a class="anchor-link" href="#Spring-2024-Data-Science-Project">¶</a></h2><h3 id="Collaborators:">Collaborators:<a class="anchor-link" href="#Collaborators:">¶</a></h3><ul>
+<li>Somil Varshney</li>
+<li>Sahil Raju Nilkanthache</li>
+<li>Rishi Modugu</li>
+<li>Elena Rangelov</li>
+</ul>
+<h2 id="Dataset">Dataset<a class="anchor-link" href="#Dataset">¶</a></h2><p><strong>Source:</strong> <a href="https://www.kaggle.com/datasets/manjitbaishya001/airbnb-new-york-jan-2024?select=detailed_reviews.csv">https://www.kaggle.com/datasets/manjitbaishya001/airbnb-new-york-jan-2024?select=detailed_reviews.csv</a>, sourced from Airbnb
+<strong>Description:</strong> Airbnb data from New York focussing on listings, locations, and user reviews of locations</p>
+<h2 id="Reason-for-choosing-dataset">Reason for choosing dataset<a class="anchor-link" href="#Reason-for-choosing-dataset">¶</a></h2><p>We chose this topic to find answers for several common perceptions about Airbnb listings and whether those conclusions are justified.</p>
+<p>These include questions like:</p>
+<ul>
+<li><strong>Location Preferences:</strong> By analyzing review sentiments and ratings across different neighborhoods in New York City, the model identifies which areas are most preferred by guests. This information can be valuable for both hosts and guests in making decisions about where to stay or where to list their properties.</li>
+<li><strong>Property Features and Amenities:</strong> Understanding which amenities and features receive the highest praise in reviews can inform hosts about what guests value the most. For example, if reviews consistently highlight the importance of a well-equipped kitchen or a comfortable bed, hosts can prioritize these aspects to attract more guests. If guests know they need a kitchen because they can't afford to eat out at New York everyday, then they would really like to know if the place has good kitchen.</li>
+<li><strong>Price Sensitivity:</strong> Analyzing the relationship between listing prices and review scores can reveal whether guests perceive higher-priced listings as offering better value or if they are more critical of expensive properties. This information can help hosts optimize their pricing strategies.</li>
+<li><strong>Impact of Superhosts:</strong> Analyzing the difference in review scores between Superhost properties and regular listings can shed light on the importance of this designation in guests' decision-making process. It can also provide insights into the specific aspects that contribute to Superhosts' higher ratings, such as responsiveness and overall hospitality. A Superhost is a designation that hosts can receive from Airbnb once they surpass a certain threshold of guests and positive reviews.</li>
+<li><strong>Competitive Analysis:</strong> Comparing review data across different Airbnb listings can help hosts benchmark their performance against competitors and identify areas for improvement. This can include aspects such as pricing, amenities, and overall guest experience.</li>
+</ul>
+<p>Our focus is on maximizing profits for hosts and minimizing costs for guests when traveling. For hosts in New York, we want them to be able to enter their zip code or and get an estimate as to what price they should charge or pay. Answering the questions above is important because it can save our users money when planning trips to an already very expensive area in New York.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0fb4a1a8">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="Data-Preprocessing"><strong>Data Preprocessing</strong><a class="anchor-link" href="#Data-Preprocessing">¶</a></h1>
 </div>
 </div>
 </div>
@@ -7528,7 +7556,560 @@ a.anchor-link {
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># this is where you should start coding</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">()</span>
+
+<span class="c1"># importing dataset and organizing</span>
+<span class="n">listings_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"../dataset/listings.csv"</span><span class="p">)</span>
+
+<span class="c1"># dropping all listings with a NA price as the percentage of NAs is more than 5%</span>
+<span class="c1"># and imputation on a feature as complex as a listing price seems unnecessary</span>
+<span class="c1"># given the quanitity of listings that do have an associated price</span>
+<span class="n">listings_df</span> <span class="o">=</span> <span class="n">listings_df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">'price'</span><span class="p">])</span>
+
+<span class="c1"># all values are in the correct format</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Data Types: "</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">listings_df</span><span class="o">.</span><span class="n">dtypes</span><span class="p">))</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"Dataframe:"</span><span class="p">)</span>
+
+<span class="n">listings_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=40be98b8">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="Data-exploration-and-summary-statistics"><strong>Data exploration and summary statistics</strong><a class="anchor-link" href="#Data-exploration-and-summary-statistics">¶</a></h1>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6962a488">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Statistical-Method-%231"><strong>Statistical Method #1</strong><a class="anchor-link" href="#Statistical-Method-%231">¶</a></h2><p><strong>Null Hypothesis ($H_{0}$) :</strong> The neighborhood group of the Airbnb does not have a statistically significant impact on the availability for the Airbnb.</p>
+<p><strong>Alternative Hypothesis ($H_{a}$) :</strong> The neighborhood group of the Airbnb has a statistically significant impact on the availability for the Airbnb.</p>
+<p><strong>Alpha-Value ($a$) :</strong> 0.05</p>
+<p><strong>Confidence level:</strong> 95%</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=063737a3">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">kruskal</span>
+
+<span class="c1"># Group by neighborhood group and calculate mean availability</span>
+<span class="n">df_groups</span> <span class="o">=</span> <span class="n">listings_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'neighbourhood_group'</span><span class="p">)[</span><span class="s1">'availability_365'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Convert mean availability to a list</span>
+<span class="n">mean_availability</span> <span class="o">=</span> <span class="n">df_groups</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="c1"># Perform Kruskal-Wallis test to compare mean availability across neighborhood groups</span>
+<span class="n">statistic</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">kruskal</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">listings_df</span><span class="p">[</span><span class="n">listings_df</span><span class="p">[</span><span class="s1">'neighbourhood_group'</span><span class="p">]</span> <span class="o">==</span> <span class="n">group</span><span class="p">][</span><span class="s1">'availability_365'</span><span class="p">]</span> <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">df_groups</span><span class="o">.</span><span class="n">index</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Kruskal-Wallis Test Statistic:"</span><span class="p">,</span> <span class="n">statistic</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"P-Value:"</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_groups</span><span class="p">)</span>
+
+<span class="c1"># Plotting the graph</span>
+<span class="n">df_groups</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">bar</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Average Availability (days)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Neighbourhood Groups'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Average Availabilities Across Neighbourhood Groups'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6baea5a7">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Since the p-value is lower than the confidence interval, we can reject the null hypothesis. This means that the location has a statistically significant impact on the availability for the Airbnb. The most available Airbnbs are located in Staten Island, and the least available Airbnbs are in Brooklyn.</p>
+<p>This is important for the machine learning model because the model should take into account that there are disproportionate availabilities based on the location of the Airbnb. The pricing model will weight this as well.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8293c8ed">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Statistical-Method-%232"><strong>Statistical Method #2</strong><a class="anchor-link" href="#Statistical-Method-%232">¶</a></h2><p><strong>Null Hypothesis ($H_{0}$) :</strong> The neighbourhoods in Manhattan do not have a statistically significant impact on the mean prices for Entire home/apt units.</p>
+<p><strong>Alternative Hypothesis ($H_{a}$) :</strong> The neighbourhoods in Manhattan have a statistically significant impact on the mean prices for Entire home/apt units.</p>
+<p><strong>Alpha-Value ($a$) :</strong> 0.05</p>
+<p><strong>Confidence level:</strong> 95%</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=abaf42a5">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">f_oneway</span>
+
+<span class="c1"># Filter the dataset to include only listings in Manhattan with 'Entire home/apt' room type</span>
+<span class="n">df_manhattan</span> <span class="o">=</span> <span class="n">listings_df</span><span class="p">[(</span><span class="n">listings_df</span><span class="p">[</span><span class="s1">'neighbourhood_group'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Manhattan'</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">listings_df</span><span class="p">[</span><span class="s1">'room_type'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Entire home/apt'</span><span class="p">)]</span>
+
+<span class="c1"># Group by neighborhood and calculate mean prices for 'Entire home/apt' units</span>
+<span class="n">df_groups</span> <span class="o">=</span> <span class="n">df_manhattan</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'neighbourhood'</span><span class="p">)[</span><span class="s1">'price'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">mean_prices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df_groups</span><span class="p">)</span>
+
+<span class="c1"># Perform one-way ANOVA test to test for statistically significant differences between the mean prices of neighborhoods</span>
+<span class="n">statistic</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">f_oneway</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">df_manhattan</span><span class="p">[</span><span class="n">df_manhattan</span><span class="p">[</span><span class="s1">'neighbourhood'</span><span class="p">]</span> <span class="o">==</span> <span class="n">neighborhood</span><span class="p">][</span><span class="s1">'price'</span><span class="p">]</span> <span class="k">for</span> <span class="n">neighborhood</span> <span class="ow">in</span> <span class="n">df_groups</span><span class="o">.</span><span class="n">index</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"P-Value:"</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+
+<span class="c1"># Plot the scatter plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df_groups</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">mean_prices</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Average Price ($)'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Manhattan Neighbourhoods'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Average Prices of Entire home/apt units in Manhattan Neighbourhoods'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8baf6bfe">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>As the p-value (7.9997e-22) is less than the alpha value of 0.05, we can reject the null hypothesis and conclude that there is a significant difference in the prices of Entire home/apt units between Manhattan neighbourhoods. Tribeca is the most expensive location in Manhattan based on the data provided/present for entire home/apts, with an average price of approximately $595. These findings allude to the fact that New York's neighbourhood groups have a varying price range of entire home/apt units throught their neighbourhoods.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d9c17926">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="Statistical-Method-%233"><strong>Statistical Method #3</strong><a class="anchor-link" href="#Statistical-Method-%233">¶</a></h2><p><strong>Null Hypothesis ($H_{0}$) :</strong> The number of reviews of an Airbnb does not have a statistically significant impact on the price of the Airbnb.</p>
+<p><strong>Alternative Hypothesis ($H_{a}$) :</strong> The number of reviews of an Airbnb has a statistically significant impact on the price of the Airbnb.</p>
+<p><strong>Alpha-Value ($a$) :</strong> 0.05</p>
+<p><strong>Confidence level:</strong> 95%</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=54a289db">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+
+<span class="c1"># using a threshold that listings with a number of reviews of lesser than 50 is</span>
+<span class="c1"># regarded as 'Low' number of reviews and those with higher than 50 is regarded</span>
+<span class="c1"># as 'High' number of reviews.</span>
+
+<span class="c1"># taking out outliers (only 7 listings have prices higher than 19000 and may</span>
+<span class="c1"># ruin integrity of our dataset)</span>
+<span class="n">new_df</span> <span class="o">=</span> <span class="n">listings_df</span><span class="p">[</span><span class="n">listings_df</span><span class="p">[</span><span class="s2">"price"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">19000.0</span><span class="p">]</span>
+
+<span class="n">low_df</span> <span class="o">=</span> <span class="n">new_df</span><span class="p">[</span><span class="n">new_df</span><span class="p">[</span><span class="s1">'number_of_reviews'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">50</span><span class="p">]</span>
+<span class="n">high_df</span> <span class="o">=</span> <span class="n">new_df</span><span class="p">[</span><span class="n">new_df</span><span class="p">[</span><span class="s1">'number_of_reviews'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">50</span><span class="p">]</span>
+
+<span class="n">low_prices</span> <span class="o">=</span> <span class="n">low_df</span><span class="p">[</span><span class="s1">'price'</span><span class="p">]</span>
+<span class="n">high_prices</span> <span class="o">=</span> <span class="n">high_df</span><span class="p">[</span><span class="s1">'price'</span><span class="p">]</span>
+
+<span class="n">t_statistic</span><span class="p">,</span> <span class="n">p_value</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">ttest_ind</span><span class="p">(</span><span class="n">low_prices</span><span class="p">,</span> <span class="n">high_prices</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"T-statistic:"</span><span class="p">,</span> <span class="n">t_statistic</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"P-value:"</span><span class="p">,</span> <span class="n">p_value</span><span class="p">)</span>
+
+<span class="c1"># plotting the graph</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">new_df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">"price"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"number_of_reviews"</span><span class="p">,</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s2">"mako_r"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">'log'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7ec6717f">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>The p-value of 1.444e-17 is extremely small, indicating strong evidence against the null hypothesis.</p>
+<p>Given the very small p-value, much smaller than the typical significance level of 0.05, we reject the null hypothesis. Therefore, we conclude that there is a statistically significant difference in mean prices between the low and high review groups.</p>
+<p>If there's a significant difference in mean prices between listings with low and high review counts, this finding could have implications for pricing strategy. For example, it might suggest that listings with higher review counts can command higher prices, potentially reflecting greater perceived value among customers.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0a730f8a">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="Initial-Conclusions-through-Exploratory-Analysis"><strong>Initial Conclusions through Exploratory Analysis</strong><a class="anchor-link" href="#Initial-Conclusions-through-Exploratory-Analysis">¶</a></h1><p>Through our exploratory data analysis and basic data cleaning (the data was pretty clean to begin with) we hope to build a machine learning model to predict the price of Airbnb listings based on features such as location, property type, number of bedrooms, amenities, and historical booking data. This could help hosts optimize their pricing strategy and maximize their revenue.</p>
+<p>Through our aforementioned Hypothesis Testing, we have found correlatory evidence in features provided in the dataset and being able to predict the value of a listing. This provides a positive outlook onto being able to create a Machine Learning pricing model in the future.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=69125de7">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="imports">imports<a class="anchor-link" href="#imports">¶</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=a311ac69">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">tarfile</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">tqdm</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7cf78212">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="model-definition">model definition<a class="anchor-link" href="#model-definition">¶</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=b1b96086">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1">#</span>
+
+<span class="k">class</span> <span class="nc">Net</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">8</span> <span class="o">*</span> <span class="mi">6</span> <span class="o">*</span> <span class="mi">7</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">n_classes</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">24</span><span class="p">),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=f30f7b14">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">n_epochs</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">10</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6e55b4bb">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="train-model-using-train-and-validation-datasets">train model using train and validation datasets<a class="anchor-link" href="#train-model-using-train-and-validation-datasets">¶</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=9efd7d90">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># loss function and optimizer</span>
+<span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">()</span>  <span class="c1"># mean square error</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
+
+<span class="c1"># train-test split of the dataset</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">train_size</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">train_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.8</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">))</span>
+<span class="n">test_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.1</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">))</span>
+<span class="n">val_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.1</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">))</span>
+<span class="n">train_set</span><span class="p">,</span> <span class="n">test_set</span><span class="p">,</span> <span class="n">val_set</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">random_split</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="p">[</span><span class="n">train_size</span><span class="p">,</span> <span class="n">test_size</span><span class="p">,</span> <span class="n">val_size</span><span class="p">])</span>
+
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">train_set</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">'price'</span><span class="p">)</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">test_set</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">'price'</span><span class="p">)</span>
+<span class="n">y_val</span> <span class="o">=</span> <span class="n">val_set</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">'price'</span><span class="p">)</span>
+
+<span class="n">x_train</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">train_set</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">x_test</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">test_set</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">x_val</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">val_set</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">y_val</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">y_val</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Hold the best model</span>
+<span class="n">best_mse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>   <span class="c1"># init to infinity</span>
+<span class="n">best_model</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">mse_store</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">loss_store</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">eval_epochs</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">batch_start</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">),</span> <span class="n">batch_size</span><span class="p">)</span>
+
+<span class="c1"># training loop</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_epochs</span><span class="p">):</span>
+
+    <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="n">batch_start</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">"batch"</span><span class="p">,</span> <span class="n">mininterval</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">disable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">bar</span><span class="p">:</span>
+        <span class="n">bar</span><span class="o">.</span><span class="n">set_description</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="n">bar</span><span class="p">:</span>
+
+            <span class="c1"># take a batch</span>
+            <span class="n">X_batch</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span><span class="o">+</span><span class="n">batch_size</span><span class="p">]</span>
+            <span class="n">y_batch</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span><span class="o">+</span><span class="n">batch_size</span><span class="p">]</span>
+
+            <span class="c1"># forward pass</span>
+            <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X_batch</span><span class="p">)</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_batch</span><span class="p">)</span>
+
+            <span class="c1"># backward pass</span>
+            <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+            <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+            <span class="c1"># update weights</span>
+            <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+            <span class="c1"># print progress</span>
+            <span class="n">bar</span><span class="o">.</span><span class="n">set_postfix</span><span class="p">(</span><span class="n">mse</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">loss</span><span class="p">))</span>
+
+    <span class="c1"># evaluate accuracy at end of each epoch</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x_val</span><span class="p">)</span>
+
+    <span class="n">eval_epochs</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="n">mse</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_val</span><span class="p">)</span>
+
+    <span class="n">mse</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">mse</span><span class="p">)</span>
+    <span class="n">mse_store</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mse</span><span class="p">)</span>
+    <span class="n">loss_store</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Epoch: </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">, Train Loss: </span><span class="si">{</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">}</span><span class="s2"> Eval Loss: </span><span class="si">{</span><span class="n">mse</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">mse</span> <span class="o">&lt;</span> <span class="n">best_mse</span><span class="p">:</span>
+        <span class="n">best_mse</span> <span class="o">=</span> <span class="n">mse</span>
+        <span class="n">best_model</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">())</span>
+
+<span class="c1"># Save your model's weights</span>
+<span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">best_model</span><span class="p">)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="s2">"model.pth"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bb36670c">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="plot-training-and-eval-loss-values">plot training and eval loss values<a class="anchor-link" href="#plot-training-and-eval-loss-values">¶</a></h3>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=840b378e">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># restore model and return best accuracy</span>
+<span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">best_model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=3d7d2fdb">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Plot the training and validation loss</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">eval_epochs</span><span class="p">,</span> <span class="n">loss_store</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Training loss'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">eval_epochs</span><span class="p">,</span> <span class="n">mse_store</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'Validation loss'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a35e1864">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="testing-model-on-test-set">testing model on test set<a class="anchor-link" href="#testing-model-on-test-set">¶</a></h1>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=9bd377e5">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Load from your saved model using torch.load</span>
+<span class="n">model_state_dict</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">"./model.pth"</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">24</span><span class="p">),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">model_state_dict</span><span class="p">)</span>
+
+<span class="c1"># set model to inference mode</span>
+<span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">preds</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">test_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+
+  <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">test_loader</span><span class="p">):</span>
+
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="n">preds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+
+
+<span class="c1"># Get the true labels for the validation dataset</span>
+<span class="n">true_y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span>
+<span class="n">preds</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">preds</span><span class="p">)</span>
+
+<span class="n">accuracy</span> <span class="o">=</span> <span class="p">(</span><span class="n">true_y</span> <span class="o">==</span> <span class="n">preds</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Accuracy: </span><span class="si">{</span><span class="n">accuracy</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
