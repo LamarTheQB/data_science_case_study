@@ -2,10 +2,10 @@
 
 ## to do
 El
- - separate 2% of data
- - comment code
- - explain why regression
- - change to section heading\
+ ✔  separate 2% of data
+ ✔  comment code
+ ✔  explain why regression
+ ✔  change to section heading\
    \
 Somil
  - visualization
