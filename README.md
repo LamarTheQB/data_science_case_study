@@ -1,5 +1,26 @@
 # Data Science Pipeline Case Study
 
+## to do
+El
+ - separate 2% of data
+ - comment code
+ - explain why regression
+ - change to section heading
+Somil
+ - visualization
+ - implement 2% analysis
+Rishi
+ - comment uncommented code *except analysis section
+ - formatting on team agreement
+ - make sure import block is at the top
+ - change collaborators to authors
+ - remove alas from conclusion
+sahil
+ - intro paragraph
+ - switch dataset and reasons
+ - cite sources for documentation and further reading
+
+
 ## Collaborators:
 - Somil Varshney
 - Sahil Raju Nilkanthache
