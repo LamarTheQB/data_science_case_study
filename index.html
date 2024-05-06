@@ -7548,7 +7548,7 @@ Elena Rangelov 5/7/24</p>
 <li>Sahil Raju Nilkanthache: Sahil did the statistical method #3 and it's writeup. He also wrote the conclusion for checkpoint #2. Sahil wrote the introduction and conclusion of the final checkpoint.</li>
 <li>Rishi Modugu: Rishi did the statistical method #3 and it's writeup. Rishi wrote the Exploratory data analysis and the data curation of the final checkpoint.</li>
 <li>Elena Rangelov: The main facilitator of the data cleaning and did statistical method #1. Elena did the primary analysis of the final checkpoint.
-The entire group came up with the idea to use one-hot encoding in the data cleaning.</li>
+The entire group came up with the idea to use change categorical data to numerical data in the data cleaning.</li>
 </ul>
 </div>
 </div>
@@ -7567,17 +7567,15 @@ The entire group came up with the idea to use one-hot encoding in the data clean
 <li>Elena Rangelov</li>
 </ul>
 <h2 id="Dataset">Dataset<a class="anchor-link" href="#Dataset">¶</a></h2><p><strong>Source:</strong> <a href="https://www.kaggle.com/datasets/manjitbaishya001/airbnb-new-york-jan-2024?select=detailed_reviews.csv">https://www.kaggle.com/datasets/manjitbaishya001/airbnb-new-york-jan-2024?select=detailed_reviews.csv</a>, sourced from Airbnb</p>
-<p><strong>Description:</strong> Airbnb data from New York focusing on listings, locations, and user reviews of locations. This dataset includes the reviews for each Airbnb as well as other features like price. Features like neighbourhood group and neighbourhood can be used to estimate the price ranges for certain areas. The type of Airbnb (Rental Unit, Loft, etc.) can also be used to estimate the price. These are the most important features for formulating a pricing model, which is the goal of this project. We also anonymized the data by stripping the names and identifying the host based on the host id.</p>
+<p><strong>Description:</strong> Airbnb data from New York focusing on listings, locations, and user reviews of locations. This dataset includes the reviews for each Airbnb as well as other features like price. Features like neighbourhood group and neighbourhood can be used to estimate the price ranges for certain areas. The type of Airbnb (Rental Unit, Loft, etc.) can also be used to estimate the price. These are the most important features for formulating a pricing model, which is the goal of this project. We also anonymized the data by stripping the names and instead identifying the host based on the host id.</p>
 <h2 id="Reason-for-choosing-dataset">Reason for choosing dataset<a class="anchor-link" href="#Reason-for-choosing-dataset">¶</a></h2><p>We chose this topic to find answers for several common perceptions about Airbnb listings and whether those conclusions are justified.</p>
 <p>These include questions like:</p>
 <ul>
-<li><strong>Location Preferences:</strong> By analyzing review sentiments and ratings across different neighborhoods in New York City, the model identifies which areas are most preferred by guests. This information can be valuable for both hosts and guests in making decisions about where to stay or where to list their properties.</li>
-<li><strong>Property Features and Amenities:</strong> Understanding which amenities and features receive the highest praise in reviews can inform hosts about what guests value the most. For example, if reviews consistently highlight the importance of a well-equipped kitchen or a comfortable bed, hosts can prioritize these aspects to attract more guests. If guests know they need a kitchen because they can't afford to eat out at New York everyday, then they would really like to know if the place has good kitchen.</li>
+<li><strong>Location Preferences:</strong> By analyzing review sentiments and ratings across different neighborhoods in New York City, the model identifies which areas are most profitable. This information can be valuable for both hosts and guests in making decisions about where to stay or where to list their properties.</li>
 <li><strong>Price Sensitivity:</strong> Analyzing the relationship between listing prices and review scores can reveal whether guests perceive higher-priced listings as offering better value or if they are more critical of expensive properties. This information can help hosts optimize their pricing strategies.</li>
-<li><strong>Impact of Superhosts:</strong> Analyzing the difference in review scores between Superhost properties and regular listings can shed light on the importance of this designation in guests' decision-making process. It can also provide insights into the specific aspects that contribute to Superhosts' higher ratings, such as responsiveness and overall hospitality. A Superhost is a designation that hosts can receive from Airbnb once they surpass a certain threshold of guests and positive reviews.</li>
 <li><strong>Competitive Analysis:</strong> Comparing review data across different Airbnb listings can help hosts benchmark their performance against competitors and identify areas for improvement. This can include aspects such as pricing, amenities, and overall guest experience.</li>
 </ul>
-<p>Our focus is on maximizing profits for hosts and minimizing costs for guests when traveling. For hosts in New York, we want them to be able to enter their zip code or and get an estimate as to what price they should charge or pay. Answering the questions above is important because it can save our users money when planning trips to an already very expensive area in New York.</p>
+<p>Our focus is on maximizing profits for hosts and analyzing best deals for guests when traveling. For hosts in New York, we want them to be able to enter their features of their Airbnb and get an estimate as to what price they should charge or pay. Answering the questions above is important because it can save our users money when planning trips to an already very expensive area in New York.</p>
 </div>
 </div>
 </div>
@@ -7820,6 +7818,23 @@ The entire group came up with the idea to use one-hot encoding in the data clean
 <pre>407274 290612
 </pre>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0ebf1b9c">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="What-We-Dropped-and-Why">What We Dropped and Why<a class="anchor-link" href="#What-We-Dropped-and-Why">¶</a></h2><p>We dropped the "license", "last_review", "id", and "host_name" columns.</p>
+<ul>
+<li>License: 90% of the data did not have a license, so when we dropped NAs, it would leave us with 50k users instead of 500k.</li>
+<li>Last Review: There were a ton of NAs, but also we did not need this column for any analysis.</li>
+<li>ID: Since every ID is unique, there is nothing we can do with it. We have row numbers instead.</li>
+<li>Host Name: We wanted to anonymize the data, but also we have host_id which is numerical and allows to easily search for it.</li>
+</ul>
 </div>
 </div>
 </div>
