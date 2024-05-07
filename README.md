@@ -19,8 +19,8 @@ Rishi
  - remove alas from conclusion\
    \
 Sahil
- - intro paragraph
- - switch dataset and reasons
+ ✔ intro paragraph
+ ✔ switch dataset and reasons
  - cite sources for documentation and further reading
 
 
