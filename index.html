@@ -7566,7 +7566,7 @@ The entire group came up with the idea to use change categorical data to numeric
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e4145404-42af-435e-aaba-1e137522414f">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=43c882ca-117f-4025-aadb-d40b7f6e4089">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7583,9 +7583,64 @@ The entire group came up with the idea to use change categorical data to numeric
 <li>Rishi Modugu</li>
 <li>Elena Rangelov</li>
 </ul>
-<center><h3> Introduction </h3></center>
-<hr style="height:0.01px; visibility:hidden;"/>
-<p>We chose this topic to find answers for several common perceptions about Airbnb listings and whether those conclusions are justified.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0bc21b21">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="Necessary-imports"><strong>Necessary imports</strong><a class="anchor-link" href="#Necessary-imports">¶</a></h1>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=42b2d951">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># machine learning analysis imports</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">tqdm</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MinMaxScaler</span>
+
+<span class="c1"># statistical analysis</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">kruskal</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">f_oneway</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">ttest_ind</span>
+
+<span class="c1"># data visualizations</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e4145404-42af-435e-aaba-1e137522414f">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="Introduction"><strong>Introduction</strong><a class="anchor-link" href="#Introduction">¶</a></h1><p>We chose this topic to find answers for several common perceptions about Airbnb listings and whether those conclusions are justified.</p>
 <p>These include questions like:</p>
 <ul>
 <li><strong>Location Preferences:</strong> By analyzing review sentiments and ratings across different neighborhoods in New York City, the model identifies which areas are most profitable. This information can be valuable for both hosts and guests in making decisions about where to stay or where to list their properties.</li>
@@ -7593,9 +7648,7 @@ The entire group came up with the idea to use change categorical data to numeric
 <li><strong>Competitive Analysis:</strong> Comparing review data across different Airbnb listings can help hosts benchmark their performance against competitors and identify areas for improvement. This can include aspects such as pricing, amenities, and overall guest experience.</li>
 </ul>
 <p>Our focus is on maximizing profits for hosts and analyzing best deals for guests when traveling. For hosts in New York, we want them to be able to enter their features of their Airbnb and get an estimate as to what price they should charge or pay. Answering the questions above is important because it can save our users money when planning trips to an already very expensive area in New York.</p>
-<center><h3> Dataset</h3></center>
-<hr style="height:0.01px; visibility:hidden;"/>
-<p><strong>Source:</strong> <a href="https://www.kaggle.com/datasets/manjitbaishya001/airbnb-new-york-jan-2024?select=detailed_reviews.csv">https://www.kaggle.com/datasets/manjitbaishya001/airbnb-new-york-jan-2024?select=detailed_reviews.csv</a>, sourced from Airbnb</p>
+<h1 id="Data-Curation"><strong>Data Curation</strong><a class="anchor-link" href="#Data-Curation">¶</a></h1><p><strong>Source:</strong> <a href="https://www.kaggle.com/datasets/manjitbaishya001/airbnb-new-york-jan-2024?select=detailed_reviews.csv">https://www.kaggle.com/datasets/manjitbaishya001/airbnb-new-york-jan-2024?select=detailed_reviews.csv</a>, sourced from Airbnb</p>
 <p><strong>Description:</strong> Airbnb data from New York focusing on listings, locations, and user reviews of locations. This dataset includes the reviews for each Airbnb as well as other features like price. Features like neighbourhood group and neighbourhood can be used to estimate the price ranges for certain areas. The type of Airbnb (Rental Unit, Loft, etc.) can also be used to estimate the price. These are the most important features for formulating a pricing model, which is the goal of this project. We also anonymized the data by stripping the names and instead identifying the host based on the host id.</p>
 </div>
 </div>
@@ -7607,7 +7660,18 @@ The entire group came up with the idea to use change categorical data to numeric
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Data-Preprocessing"><strong>Data Preprocessing</strong><a class="anchor-link" href="#Data-Preprocessing">¶</a></h1>
+<h3 id="Data-Preprocessing">Data Preprocessing<a class="anchor-link" href="#Data-Preprocessing">¶</a></h3>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=94eb3734-dea7-40ba-9762-da589feb1438">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Here we are cleaning and altering the data to conduct statistical and machine learning analysis more easily in the future.</p>
 </div>
 </div>
 </div>
@@ -7616,13 +7680,10 @@ The entire group came up with the idea to use change categorical data to numeric
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">()</span>
 
 <span class="c1"># Importing dataset and organizing</span>
 <span class="n">listings_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"./dataset/listings.csv"</span><span class="p">)</span>
@@ -7635,12 +7696,6 @@ The entire group came up with the idea to use change categorical data to numeric
 <span class="c1"># ruin integrity of our dataset)</span>
 <span class="n">listings_df</span> <span class="o">=</span> <span class="n">listings_df</span><span class="p">[</span><span class="n">listings_df</span><span class="p">[</span><span class="s2">"price"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">19000.0</span><span class="p">]</span>
 
-<span class="c1"># all values are in the correct format</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"Data Types: "</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">listings_df</span><span class="o">.</span><span class="n">dtypes</span><span class="p">))</span>
-
-
-<span class="nb">print</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"Dataframe:"</span><span class="p">)</span>
-
 <span class="n">listings_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -7651,19 +7706,8 @@ The entire group came up with the idea to use change categorical data to numeric
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Data Types:  [dtype('int64'), dtype('O'), dtype('int64'), dtype('O'), dtype('O'), dtype('O'), dtype('float64'), dtype('float64'), dtype('O'), dtype('float64'), dtype('int64'), dtype('int64'), dtype('O'), dtype('float64'), dtype('int64'), dtype('int64'), dtype('int64'), dtype('O')]
-
-
-
- Dataframe:
-</pre>
-</div>
-</div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[2]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -7865,7 +7909,7 @@ The entire group came up with the idea to use change categorical data to numeric
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="What-We-Dropped-and-Why">What We Dropped and Why<a class="anchor-link" href="#What-We-Dropped-and-Why">¶</a></h2><p>We dropped the "license", "last_review", "id", and "host_name" columns.</p>
+<h3 id="What-We-Dropped-and-Why">What We Dropped and Why<a class="anchor-link" href="#What-We-Dropped-and-Why">¶</a></h3><p>We dropped the "license", "last_review", "id", and "host_name" columns.</p>
 <ul>
 <li>License: 90% of the data did not have a license, so when we dropped NAs, it would leave us with 50k users instead of 500k.</li>
 <li>Last Review: There were a ton of NAs, but also we did not need this column for any analysis.</li>
@@ -8032,7 +8076,7 @@ The entire group came up with the idea to use change categorical data to numeric
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Data-exploration-and-summary-statistics"><strong>Data exploration and summary statistics</strong><a class="anchor-link" href="#Data-exploration-and-summary-statistics">¶</a></h1>
+<h1 id="Exploratory-Data-Analysis-and-Summary-Statistics"><strong>Exploratory Data Analysis and Summary Statistics</strong><a class="anchor-link" href="#Exploratory-Data-Analysis-and-Summary-Statistics">¶</a></h1>
 </div>
 </div>
 </div>
@@ -8043,7 +8087,7 @@ The entire group came up with the idea to use change categorical data to numeric
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Statistical-Method-%231"><strong>Statistical Method #1</strong><a class="anchor-link" href="#Statistical-Method-%231">¶</a></h2><p><strong>Null Hypothesis ($H_{0}$) :</strong> The neighborhood group of the Airbnb does not have a statistically significant impact on the availability for the Airbnb.</p>
+<h3 id="Statistical-Method-%231">Statistical Method #1<a class="anchor-link" href="#Statistical-Method-%231">¶</a></h3><p><strong>Null Hypothesis ($H_{0}$) :</strong> The neighborhood group of the Airbnb does not have a statistically significant impact on the availability for the Airbnb.</p>
 <p><strong>Alternative Hypothesis ($H_{a}$) :</strong> The neighborhood group of the Airbnb has a statistically significant impact on the availability for the Airbnb.</p>
 <p><strong>Alpha-Value ($a$) :</strong> 0.05</p>
 <p><strong>Confidence level:</strong> 95%</p>
@@ -8059,10 +8103,7 @@ The entire group came up with the idea to use change categorical data to numeric
 <div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">kruskal</span>
-
-<span class="c1"># Group by neighborhood group and calculate mean availability</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Group by neighborhood group and calculate mean availability</span>
 <span class="n">df_groups</span> <span class="o">=</span> <span class="n">listings_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'neighbourhood_group'</span><span class="p">)[</span><span class="s1">'availability_365'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 <span class="c1"># Convert mean availability to a list</span>
@@ -8133,7 +8174,7 @@ Name: availability_365, dtype: float64
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Statistical-Method-%232"><strong>Statistical Method #2</strong><a class="anchor-link" href="#Statistical-Method-%232">¶</a></h2><p><strong>Null Hypothesis ($H_{0}$) :</strong> The neighbourhoods in Manhattan do not have a statistically significant impact on the mean prices for Entire home/apt units.</p>
+<h3 id="Statistical-Method-%232">Statistical Method #2<a class="anchor-link" href="#Statistical-Method-%232">¶</a></h3><p><strong>Null Hypothesis ($H_{0}$) :</strong> The neighbourhoods in Manhattan do not have a statistically significant impact on the mean prices for Entire home/apt units.</p>
 <p><strong>Alternative Hypothesis ($H_{a}$) :</strong> The neighbourhoods in Manhattan have a statistically significant impact on the mean prices for Entire home/apt units.</p>
 <p><strong>Alpha-Value ($a$) :</strong> 0.05</p>
 <p><strong>Confidence level:</strong> 95%</p>
@@ -8149,9 +8190,7 @@ Name: availability_365, dtype: float64
 <div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">f_oneway</span>
-
-<span class="c1"># Filter the dataset to include only listings in Manhattan with 'Entire home/apt' room type</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Filter the dataset to include only listings in Manhattan with 'Entire home/apt' room type</span>
 <span class="n">df_manhattan</span> <span class="o">=</span> <span class="n">listings_df</span><span class="p">[(</span><span class="n">listings_df</span><span class="p">[</span><span class="s1">'neighbourhood_group'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Manhattan'</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">listings_df</span><span class="p">[</span><span class="s1">'room_type'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Entire home/apt'</span><span class="p">)]</span>
 
 <span class="c1"># Group by neighborhood and calculate mean prices for 'Entire home/apt' units</span>
@@ -8213,7 +8252,7 @@ Name: availability_365, dtype: float64
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Statistical-Method-%233"><strong>Statistical Method #3</strong><a class="anchor-link" href="#Statistical-Method-%233">¶</a></h2><p><strong>Null Hypothesis ($H_{0}$) :</strong> The number of reviews of an Airbnb does not have a statistically significant impact on the price of the Airbnb.</p>
+<h3 id="Statistical-Method-%233">Statistical Method #3<a class="anchor-link" href="#Statistical-Method-%233">¶</a></h3><p><strong>Null Hypothesis ($H_{0}$) :</strong> The number of reviews of an Airbnb does not have a statistically significant impact on the price of the Airbnb.</p>
 <p><strong>Alternative Hypothesis ($H_{a}$) :</strong> The number of reviews of an Airbnb has a statistically significant impact on the price of the Airbnb.</p>
 <p><strong>Alpha-Value ($a$) :</strong> 0.05</p>
 <p><strong>Confidence level:</strong> 95%</p>
@@ -8229,8 +8268,7 @@ Name: availability_365, dtype: float64
 <div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">ttest_ind</span>
-<span class="c1"># using a threshold that listings with a number of reviews of lesser than 50 is</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># using a threshold that listings with a number of reviews of lesser than 50 is</span>
 <span class="c1"># regarded as 'Low' number of reviews and those with higher than 50 is regarded</span>
 <span class="c1"># as 'High' number of reviews.</span>
 
@@ -8304,50 +8342,8 @@ P-value: 1.5585135406409729e-06
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Initial-Conclusions-through-Exploratory-Analysis"><strong>Initial Conclusions through Exploratory Analysis</strong><a class="anchor-link" href="#Initial-Conclusions-through-Exploratory-Analysis">¶</a></h1><p>Through our exploratory data analysis and basic data cleaning (the data was pretty clean to begin with) we hope to build a machine learning model to predict the price of Airbnb listings based on features such as location, property type, number of bedrooms, amenities, and historical booking data. This could help hosts optimize their pricing strategy and maximize their revenue.</p>
+<h2 id="Initial-Conclusions-through-Exploratory-Analysis"><strong>Initial Conclusions through Exploratory Analysis</strong><a class="anchor-link" href="#Initial-Conclusions-through-Exploratory-Analysis">¶</a></h2><p>Through our exploratory data analysis and basic data cleaning (the data was pretty clean to begin with) we hope to build a machine learning model to predict the price of Airbnb listings based on features such as location, property type, number of bedrooms, amenities, and historical booking data. This could help hosts optimize their pricing strategy and maximize their revenue.</p>
 <p>Through our aforementioned Hypothesis Testing, we have found correlatory evidence in features provided in the dataset and being able to predict the value of a listing. This provides a positive outlook onto being able to create a Machine Learning pricing model in the future.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0bc21b21">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Necessary-imports"><strong>Necessary imports</strong><a class="anchor-link" href="#Necessary-imports">¶</a></h1>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=42b2d951">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [76]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">tarfile</span>
-<span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">cv2</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
-<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
-<span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">import</span> <span class="nn">tqdm</span>
-<span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
-<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
-<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MinMaxScaler</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
-</pre></div>
-</div>
 </div>
 </div>
 </div>
@@ -8358,7 +8354,7 @@ P-value: 1.5585135406409729e-06
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Define-model-and-hyperparameters"><strong>Define model and hyperparameters</strong><a class="anchor-link" href="#Define-model-and-hyperparameters">¶</a></h1><p>We used a feed-forward neural network with an input layer, output layer, and three hidden layers. We chose to use the regression strategy because price is not categorical, but continuous. This means that the data analysis needs to give a number value that can come close to the actual value, and not a category. This points to a linear regression, so we've used linear layers in our network.</p>
+<h1 id="Primary-Analysis"><strong>Primary Analysis</strong><a class="anchor-link" href="#Primary-Analysis">¶</a></h1><p>We used a feed-forward neural network with an input layer, output layer, and one hidden layers. We chose to use the regression strategy because price is not categorical, but continuous. This means that the data analysis needs to give a number value that can come close to the actual value, and not a category. This points to a linear regression, so we've used linear layers in our network.</p>
 </div>
 </div>
 </div>
@@ -8371,7 +8367,7 @@ P-value: 1.5585135406409729e-06
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># defining the neural network to parse the input data</span>
-<span class="c1"># five linear layers and the relu function is applied between each</span>
+<span class="c1"># three linear layers and the relu function is applied between each</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
     <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">24</span><span class="p">),</span>
     <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
@@ -8422,7 +8418,7 @@ P-value: 1.5585135406409729e-06
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># define loss function as the Mean Squared Error loss, as this is best for linear regressions</span>
 <span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">()</span>
 
-<span class="c1"># use Adam optimizer from pytorch with a learning rate of 0.00001</span>
+<span class="c1"># use Adam optimizer from pytorch with a learning rate of 0.0001</span>
 <span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">)</span>
 
 <span class="c1"># setting up a 80-9-9 training, test, validation split</span>
@@ -8691,7 +8687,7 @@ Epoch: 99, Train Loss: 3746.7548828125 Eval Loss: 166952.40625
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Load-model-and-plot-validation"><strong>Load model and plot validation</strong><a class="anchor-link" href="#Load-model-and-plot-validation">¶</a></h1>
+<h3 id="Load-model-and-plot-validation">Load model and plot validation<a class="anchor-link" href="#Load-model-and-plot-validation">¶</a></h3>
 </div>
 </div>
 </div>
@@ -8731,7 +8727,7 @@ Epoch: 99, Train Loss: 3746.7548828125 Eval Loss: 166952.40625
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Find-accuracy-of-model-on-test-data"><strong>Find accuracy of model on test data</strong><a class="anchor-link" href="#Find-accuracy-of-model-on-test-data">¶</a></h1>
+<h3 id="Find-accuracy-of-model-on-test-data">Find accuracy of model on test data<a class="anchor-link" href="#Find-accuracy-of-model-on-test-data">¶</a></h3>
 </div>
 </div>
 </div>
@@ -8801,7 +8797,7 @@ Epoch: 99, Train Loss: 3746.7548828125 Eval Loss: 166952.40625
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Visualizations:"><strong>Visualizations</strong>:<a class="anchor-link" href="#Visualizations:">¶</a></h1>
+<h1 id="Visualization"><strong>Visualization</strong><a class="anchor-link" href="#Visualization">¶</a></h1>
 </div>
 </div>
 </div>
@@ -9009,9 +9005,7 @@ Epoch: 99, Train Loss: 3746.7548828125 Eval Loss: 166952.40625
 <div class="jp-InputPrompt jp-InputArea-prompt">In [110]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-
-<span class="n">predicted_prices</span><span class="p">,</span> <span class="n">actual_prices</span> <span class="o">=</span> <span class="n">pred_prices</span><span class="p">(</span><span class="n">analysis_df</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">predicted_prices</span><span class="p">,</span> <span class="n">actual_prices</span> <span class="o">=</span> <span class="n">pred_prices</span><span class="p">(</span><span class="n">analysis_df</span><span class="p">)</span>
 
 <span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">"darkgrid"</span><span class="p">)</span>
 
@@ -9096,20 +9090,6 @@ Epoch: 99, Train Loss: 3746.7548828125 Eval Loss: 166952.40625
 <p>Through our analysis and price modeling, we found that there was a high correlation between the neighbourhood and neighbourhood groups where the Airbnb was listed and the price of the listing. Through this, we can observe that throughout New York City, certain neighbourhood/neighbourhood groups have more expensive listings and Airbnbs than some other neighbourhoods. For example, when comparing Manhattan neighbourhoods, we found that there were significant differences, with Tribeca having an average listing of approximately 600 whereas Marble Hill has an average listing of approximately 100. In addition, we were able to conclude that there was a correlation between the number of reviews on the listing and the price of the listing.</p>
 <p>This is interesting because it has several meanings in the context of Airbnbs. For example, if users are especially discontent with an Airbnb, there could be more reviews expressing their negative opinions with negative feelings being stronger than positive feelings (Negativity bias). In contrast, an exceptional Airbnb could elicit more positive reviews expressing their positive opinions about the Airbnb. With an existing correlation with the price, this feature was a viable aspect to consider when constructing the model. Another feature we explored was the availability between neighbourhood groups. Once again, we discovered a correlation strong enough to reject the null hypothesis. With the disproportionate availablities between neighbourhood groups, this was another feature that would benefit the model.</p>
 <p>The price model that we have formulated produces a price estimate based on the features, location, etc. of the Airbnb, which can help hosts determine the optimal price for the Airbnb they are listing. Of course, there may be more factors to consider when determining the price of an Airbnb, but our model hopes to provide a benchmark to aid hosts trying to accurately value an Airbnb.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=a3acb75f-e152-425c-9779-4d78ce5afe3b">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-</div>
 </div>
 </div>
 </div>
